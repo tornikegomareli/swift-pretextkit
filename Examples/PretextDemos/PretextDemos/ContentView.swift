@@ -3,9 +3,9 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            TextPhysicsView()
+            ShowcasesView()
                 .tabItem {
-                    Label("Physics", systemImage: "sparkles")
+                    Label("Showcases", systemImage: "sparkles")
                 }
 
             DynamicLayoutView()
