@@ -26,6 +26,9 @@ struct MergedSegmentation {
     var count: Int { texts.count }
 
     /// Remove empty entries (compact in-place).
+    ///
+    /// Uses `removeLast(_:)` instead of `removeSubrange` to avoid
+    /// intermediate range allocation — mirrors the TS `.length = n` truncation.
     mutating func compact() {
         var write = 0
         for read in 0..<texts.count {
@@ -38,10 +41,13 @@ struct MergedSegmentation {
             }
             write += 1
         }
-        texts.removeSubrange(write...)
-        isWordLike.removeSubrange(write...)
-        kinds.removeSubrange(write...)
-        starts.removeSubrange(write...)
+        let excess = texts.count - write
+        if excess > 0 {
+            texts.removeLast(excess)
+            isWordLike.removeLast(excess)
+            kinds.removeLast(excess)
+            starts.removeLast(excess)
+        }
     }
 }
 
@@ -57,7 +63,8 @@ func normalizeWhitespaceNormal(_ text: String) -> String {
     guard needsNormalization else { return text }
 
     var result = ""
-    var lastWasSpace = true // Treat start as space to trim leading
+    result.reserveCapacity(text.utf8.count)
+    var lastWasSpace = true
     for scalar in text.unicodeScalars {
         if scalar == " " || scalar == "\t" || scalar == "\n" || scalar == "\r" || scalar == "\u{000C}" {
             if !lastWasSpace {
@@ -78,10 +85,29 @@ func normalizeWhitespaceNormal(_ text: String) -> String {
 }
 
 /// Normalizes line endings for pre-wrap mode.
+///
+/// Single-pass scalar walk instead of three chained `replacingOccurrences`
+/// calls, which would allocate three intermediate strings.
 func normalizeWhitespacePreWrap(_ text: String) -> String {
-    text.replacingOccurrences(of: "\r\n", with: "\n")
-        .replacingOccurrences(of: "\r", with: "\n")
-        .replacingOccurrences(of: "\u{000C}", with: "\n")
+    var needsWork = false
+    for s in text.unicodeScalars {
+        if s == "\r" || s == "\u{000C}" { needsWork = true; break }
+    }
+    guard needsWork else { return text }
+
+    var result = ""
+    result.reserveCapacity(text.utf8.count)
+    var prev: Unicode.Scalar?
+    for s in text.unicodeScalars {
+        if s == "\n" && prev == "\r" { prev = s; continue } // skip \n after \r
+        if s == "\r" || s == "\u{000C}" {
+            result.unicodeScalars.append("\n")
+        } else {
+            result.unicodeScalars.append(s)
+        }
+        prev = s
+    }
+    return result
 }
 
 // MARK: - Shared Locale State
@@ -145,11 +171,16 @@ private func buildMergedSegmentation(
     let locale = getAnalysisLocale()
     let wordSegments = segmentWords(normalized, locale: locale)
 
-    // Phase 1: Split each word segment by break kind and apply initial merges
     var texts: [String] = []
     var wordLikes: [Bool] = []
     var kinds: [SegmentBreakKind] = []
     var starts: [Int] = []
+
+    let estimatedCapacity = wordSegments.count * 2
+    texts.reserveCapacity(estimatedCapacity)
+    wordLikes.reserveCapacity(estimatedCapacity)
+    kinds.reserveCapacity(estimatedCapacity)
+    starts.reserveCapacity(estimatedCapacity)
 
     for seg in wordSegments {
         let pieces = splitSegmentByBreakKind(seg.text, isWordLike: seg.isWordLike, start: seg.utf16Start, whiteSpace: whiteSpace)
