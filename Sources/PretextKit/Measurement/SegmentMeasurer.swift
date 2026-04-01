@@ -41,8 +41,12 @@ final class SegmentMeasurer {
     }
 
     /// Measures per-grapheme widths for a segment (for overflow-wrap breaking).
+    ///
+    /// Pre-allocates the result array to avoid incremental growth.
     func measureGraphemeWidths(_ text: String) -> ContiguousArray<Float> {
+        let count = text.count
         var widths = ContiguousArray<Float>()
+        widths.reserveCapacity(count)
         for char in text {
             widths.append(measureWidth(String(char)))
         }
