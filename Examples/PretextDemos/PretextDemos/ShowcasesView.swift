@@ -5,7 +5,6 @@ enum ShowcaseScene: String, CaseIterable {
     case tetris = "Tetris"
     case shrinkwrap = "Shrinkwrap"
     case testimonial = "Testimonial"
-    case swiftui = "SwiftUI vs"
     case orbs = "Bouncing Orbs"
     case dynamic = "Dynamic Layout"
     case editorial = "Editorial"
@@ -47,8 +46,6 @@ struct ShowcasesView: View {
                     ShrinkwrapScene()
                 case .testimonial:
                     TestimonialScene()
-                case .swiftui:
-                    SwiftUIComparisonScene()
                 case .orbs:
                     BouncingOrbsScene()
                 case .dynamic:

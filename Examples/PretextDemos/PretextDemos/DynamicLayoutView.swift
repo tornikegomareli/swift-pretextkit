@@ -21,7 +21,6 @@ struct DynamicLayoutView: View {
         case textkit1 = "TextKit 1"
         case textkit2 = "TextKit 2"
         case uilabel = "UILabel"
-        case swiftui = "SwiftUI Text"
     }
 
     @State private var orbPosition = CGPoint(x: 160, y: 400)
@@ -58,8 +57,18 @@ struct DynamicLayoutView: View {
                         switch mode {
                         case .pretext:
                             pretextCanvas
-                        case .coretext, .uilabel:
+                        case .coretext:
                             CoreTextLayoutView(
+                                bodyText: Self.sharedBodyText,
+                                font: font as UIFont,
+                                lineHeight: lineHeight,
+                                orbCenter: orbPosition,
+                                orbRadius: orbRadius + orbPadding,
+                                padding: padding,
+                                onStats: { lineCount = $0; reflowUs = $1 }
+                            )
+                        case .uilabel:
+                            UILabelLayoutView(
                                 bodyText: Self.sharedBodyText,
                                 font: font as UIFont,
                                 lineHeight: lineHeight,
@@ -80,16 +89,6 @@ struct DynamicLayoutView: View {
                             )
                         case .textkit2:
                             TextKit2LayoutView(
-                                bodyText: Self.sharedBodyText,
-                                font: font as UIFont,
-                                lineHeight: lineHeight,
-                                orbCenter: orbPosition,
-                                orbRadius: orbRadius + orbPadding,
-                                padding: padding,
-                                onStats: { lineCount = $0; reflowUs = $1 }
-                            )
-                        case .swiftui:
-                            SwiftUITextLayoutView(
                                 bodyText: Self.sharedBodyText,
                                 font: font as UIFont,
                                 lineHeight: lineHeight,
@@ -531,26 +530,23 @@ final class EngineLayoutCanvas: UIView {
     }
 }
 
-// MARK: - SwiftUI Text (UIHostingController + per-line sizeThatFits)
+// MARK: - UILabel (real UILabel.sizeThatFits per line slot)
 
-struct SwiftUITextLayoutView: UIViewRepresentable {
+struct UILabelLayoutView: UIViewRepresentable {
     let bodyText: String; let font: UIFont; let lineHeight: CGFloat
     let orbCenter: CGPoint; let orbRadius: CGFloat; let padding: CGFloat
     let onStats: @MainActor (Int, Double) -> Void
 
-    func makeUIView(context: Context) -> SwiftUITextCanvas {
-        SwiftUITextCanvas()
-    }
-    func updateUIView(_ v: SwiftUITextCanvas, context: Context) {
+    func makeUIView(context: Context) -> UILabelLayoutCanvas { UILabelLayoutCanvas() }
+    func updateUIView(_ v: UILabelLayoutCanvas, context: Context) {
         v.configure(bodyText: bodyText, font: font, lineHeight: lineHeight,
                     orbCenter: orbCenter, orbRadius: orbRadius, padding: padding, onStats: onStats)
     }
 }
 
-/// Simulates what a SwiftUI-based text flow would cost: for each line slot,
-/// creates a UILabel sized with sizeThatFits to determine how much text fits,
-/// then splits and positions. This is the real cost of SwiftUI Text measurement.
-final class SwiftUITextCanvas: UIView {
+/// Uses actual UILabel.sizeThatFits to determine how much text fits
+/// in each slot. This is the real UILabel measurement cost path.
+final class UILabelLayoutCanvas: UIView {
     private var labels: [UILabel] = []
     private var bodyText = ""
     private var textFont = UIFont.systemFont(ofSize: 15)
@@ -574,15 +570,16 @@ final class SwiftUITextCanvas: UIView {
         for l in labels { l.removeFromSuperview() }
         labels.removeAll()
 
-        // Use NSAttributedString + boundingRect per slot — this is what SwiftUI Text
-        // ultimately does under the hood (TextKit → CoreText → glyph shaping).
-        let attrStr = NSAttributedString(string: bodyText, attributes: [.font: textFont])
         let nsStr = bodyText as NSString
         var charIndex = 0
         let totalLength = nsStr.length
         var y = pad
         let fullLeft = pad, fullRight = bounds.width - pad
         let minSlot: CGFloat = 40
+
+        let sizingLabel = UILabel()
+        sizingLabel.font = textFont
+        sizingLabel.numberOfLines = 1
 
         while y + lineHeight <= bounds.height && charIndex < totalLength {
             let slots = DynamicLayoutView.carveSlots(
@@ -596,39 +593,31 @@ final class SwiftUITextCanvas: UIView {
                 let w = slot.right - slot.left
                 guard w >= minSlot, charIndex < totalLength else { continue }
 
-                // Binary search: find how many characters fit in this width
-                // using boundingRect (the same measurement path SwiftUI Text uses)
+                // Use UILabel.sizeThatFits to measure — the real UILabel cost
                 var lo = 1, hi = min(totalLength - charIndex, 500)
                 while lo < hi {
                     let mid = (lo + hi + 1) / 2
                     let range = NSRange(location: charIndex, length: mid)
-                    let sub = attrStr.attributedSubstring(from: range)
-                    let size = sub.boundingRect(
-                        with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: lineHeight),
-                        options: [.usesLineFragmentOrigin], context: nil
-                    )
-                    if size.width <= w { lo = mid } else { hi = mid - 1 }
+                    sizingLabel.text = nsStr.substring(with: range)
+                    let fitSize = sizingLabel.sizeThatFits(CGSize(width: .greatestFiniteMagnitude, height: lineHeight))
+                    if fitSize.width <= w { lo = mid } else { hi = mid - 1 }
                 }
 
-                // Find word boundary for clean break
                 var count = lo
                 if charIndex + count < totalLength {
                     let searchStart = max(charIndex, charIndex + count - 20)
                     let searchRange = NSRange(location: searchStart, length: charIndex + count - searchStart)
-                    var lastSpace = charIndex + count
                     nsStr.enumerateSubstrings(in: searchRange, options: .byWords) { _, range, _, stop in
-                        lastSpace = range.location + range.length
+                        if range.location + range.length <= charIndex + count {
+                            count = range.location + range.length - charIndex
+                        }
                         stop.pointee = true
-                    }
-                    if lastSpace > charIndex && lastSpace <= charIndex + count {
-                        count = lastSpace - charIndex
                     }
                 }
                 guard count > 0 else { charIndex += 1; continue }
 
                 let range = NSRange(location: charIndex, length: count)
-                let lineText = nsStr.substring(with: range)
-                    .trimmingCharacters(in: .whitespaces)
+                let lineText = nsStr.substring(with: range).trimmingCharacters(in: .whitespaces)
 
                 let label = UILabel()
                 label.font = textFont
@@ -646,6 +635,7 @@ final class SwiftUITextCanvas: UIView {
         onStats?(labels.count, elapsed)
     }
 }
+
 
 // MARK: - Supporting types
 
