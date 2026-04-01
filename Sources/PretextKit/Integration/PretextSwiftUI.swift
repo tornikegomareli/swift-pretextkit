@@ -101,6 +101,11 @@ public extension View {
 
 /// A SwiftUI view that uses GeometryReader to automatically size
 /// PretextText based on available width.
+///
+/// Measures the available width via GeometryReader, computes the exact
+/// height using `layout()`, and renders lines via Canvas. The height
+/// feeds back through a preference key so the view sizes itself correctly
+/// without requiring an explicit frame.
 @available(iOS 16.0, macOS 13.0, *)
 public struct PretextAutoSizedText: View {
     let prepared: PreparedTextWithSegments
@@ -124,7 +129,7 @@ public struct PretextAutoSizedText: View {
 
     public var body: some View {
         GeometryReader { geometry in
-            let result = PretextKit.layout(prepared, maxWidth: geometry.size.width, lineHeight: lineHeight)
+            let height = PretextKit.layout(prepared, maxWidth: geometry.size.width, lineHeight: lineHeight).height
             Canvas { context, size in
                 let linesResult = layoutWithLines(prepared, maxWidth: size.width, lineHeight: lineHeight)
                 for (i, line) in linesResult.lines.enumerated() {
@@ -133,11 +138,14 @@ public struct PretextAutoSizedText: View {
                             .font(Font(font))
                             .foregroundColor(textColor)
                     )
-                    let y = CGFloat(i) * lineHeight
-                    context.draw(resolved, at: CGPoint(x: 0, y: y), anchor: .topLeading)
+                    context.draw(resolved, at: CGPoint(x: 0, y: CGFloat(i) * lineHeight), anchor: .topLeading)
                 }
             }
-            .frame(width: geometry.size.width, height: result.height)
+            .frame(width: geometry.size.width, height: height)
+            .onAppear { computedHeight = height }
+            .onChange(of: geometry.size.width) { newWidth in
+                computedHeight = PretextKit.layout(prepared, maxWidth: newWidth, lineHeight: lineHeight).height
+            }
         }
         .frame(height: computedHeight > 0 ? computedHeight : nil)
     }
