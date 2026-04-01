@@ -22,6 +22,16 @@ struct PreparedSegmentBuilder {
     var segments: [String] = []
     var simpleLineWalkFastPath = true
 
+    /// Pre-allocate arrays when the segment count is known (non-CJK texts).
+    mutating func reserveCapacity(_ n: Int) {
+        widths.reserveCapacity(n)
+        lineEndFitAdvances.reserveCapacity(n)
+        lineEndPaintAdvances.reserveCapacity(n)
+        kinds.reserveCapacity(n)
+        breakableWidths.reserveCapacity(n)
+        segments.reserveCapacity(n)
+    }
+
     mutating func push(
         text: String,
         width: Float,
@@ -64,6 +74,7 @@ func measureAnalysis(
 ) -> MeasurementResult {
     let seg = analysis.segmentation
     var builder = PreparedSegmentBuilder()
+    builder.reserveCapacity(seg.count)
 
     let spaceWidth = measurer.measureSpaceWidth()
     let hyphenWidth = measurer.measureHyphenWidth()
