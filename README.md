@@ -8,9 +8,7 @@
 
 Swift port of [Cheng Lou's Pretext](https://github.com/chenglou/pretext) for Apple platforms.
 
-
-https://github.com/user-attachments/assets/3347db12-325d-46af-bdd3-3f78e539c329
-
+https://github.com/user-attachments/assets/a765c4e8-5418-4f02-8bc8-251001c41e92
 
 ---
 
