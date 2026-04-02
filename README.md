@@ -21,8 +21,6 @@ https://github.com/user-attachments/assets/aed86de0-6e13-49c4-a3c3-58ae48bd9df2
 
 <br>
 
-## Why
-
 `UILabel.sizeThatFits`, `NSAttributedString.boundingRect`, and every other text measurement API on iOS calls CoreText from scratch every time — font tables, Unicode normalization, glyph shaping, line breaking. All of it, every call.
 
 PretextKit does the expensive CoreText work once in `prepare()`, then answers any "how tall is this text at width X?" question with pure arithmetic in `layout()`. No font engine, no allocations, sub-microsecond.
