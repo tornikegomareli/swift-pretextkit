@@ -8,7 +8,46 @@
 
 Swift port of [Cheng Lou's Pretext](https://github.com/chenglou/pretext) for Apple platforms.
 
+<div align="center">
+
 https://github.com/user-attachments/assets/a765c4e8-5418-4f02-8bc8-251001c41e92
+
+</div>
+
+<div align="center">
+<table>
+<tr>
+<td align="center"><strong>Breaker</strong><br><sub>Text reflows around ball, paddle, and word-bricks</sub><br><br>
+
+https://github.com/user-attachments/assets/08c9b23a-e61d-4865-a994-c4a5c3f71030
+
+</td>
+<td align="center"><strong>Tetris</strong><br><sub>Falling tetrominoes swim in reflowing text</sub><br><br>
+
+https://github.com/user-attachments/assets/131df357-8707-4e28-ace5-cb9e70271ba4
+
+</td>
+<td align="center"><strong>Bouncing Orbs</strong><br><sub>60fps physics with text flowing around obstacles</sub><br><br>
+
+https://github.com/user-attachments/assets/308d598a-35ce-4de5-a6a0-2fdec59935d4
+
+</td>
+</tr>
+<tr>
+<td align="center"><strong>Shrinkwrap</strong><br><sub>Standard sizing vs binary-search minimum width</sub><br><br>
+
+https://github.com/user-attachments/assets/d97ccb45-108c-4c23-aa2c-972a9baa391e
+
+</td>
+<td align="center"><strong>Dynamic Layout</strong><br><sub>Draggable magazine elements with real-time reflow</sub><br><br>
+
+https://github.com/user-attachments/assets/aed86de0-6e13-49c4-a3c3-58ae48bd9df2
+
+</td>
+<td align="center"></td>
+</tr>
+</table>
+</div>
 
 ---
 
@@ -254,37 +293,6 @@ The core algorithm is a 1:1 port from the [original TypeScript](https://github.c
 | Hot path | Array indexing | `withUnsafeBufferPointer` |
 
 Not yet ported: bidi rendering metadata (`segLevels`) and URL-specific segmentation rules.
-
----
-
-## Demo app
-
-Interactive showcases included in the demo app target:
-
-### Breaker
-Breakout game — text reflows around ball, paddle, and word-bricks.
-
-https://github.com/user-attachments/assets/08c9b23a-e61d-4865-a994-c4a5c3f71030
-
-### Tetris
-Falling tetrominoes swim in reflowing text.
-
-https://github.com/user-attachments/assets/131df357-8707-4e28-ace5-cb9e70271ba4
-
-### Bouncing Orbs
-60fps physics with text flowing around moving obstacles.
-
-https://github.com/user-attachments/assets/308d598a-35ce-4de5-a6a0-2fdec59935d4
-
-### Shrinkwrap
-Standard sizing vs binary-search minimum bubble width.
-
-https://github.com/user-attachments/assets/d97ccb45-108c-4c23-aa2c-972a9baa391e
-
-### Dynamic Layout
-Draggable magazine elements with real-time reflow. Also compares PretextKit against CoreText, TextKit 1, TextKit 2, and UILabel — all rendering the same text around a draggable orb using their real APIs.
-
-https://github.com/user-attachments/assets/aed86de0-6e13-49c4-a3c3-58ae48bd9df2
 
 ---
 
