@@ -4,6 +4,10 @@
 
 **Measure text once. Reflow forever.**
 ![dynamiclayout](https://github.com/user-attachments/assets/92fcc262-f5a9-460d-978b-655ff7fcfb80)
+![tetris](https://github.com/user-attachments/assets/bf6ed1d4-208d-4685-a991-b7d74176eda7)
+![shrinkwrip](https://github.com/user-attachments/assets/2ce5a60e-9cda-43e1-815f-8c85602370c6)
+![bracket](https://github.com/user-attachments/assets/32aaab7b-1af6-40a4-9e61-1b08844e922d)
+![bouncing-orbs](https://github.com/user-attachments/assets/e6cada00-97c8-4823-8151-e6d01a90eb85)
 
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-F05138.svg?style=flat&logo=swift&logoColor=white)](https://swift.org)
 [![iOS 16+](https://img.shields.io/badge/iOS-16%2B-007AFF.svg?style=flat&logo=apple&logoColor=white)](https://developer.apple.com/ios/)
