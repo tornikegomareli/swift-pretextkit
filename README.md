@@ -3,6 +3,7 @@
 # PretextKit
 
 **Measure text once. Reflow forever.**
+![dynamiclayout](https://github.com/user-attachments/assets/92fcc262-f5a9-460d-978b-655ff7fcfb80)
 
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-F05138.svg?style=flat&logo=swift&logoColor=white)](https://swift.org)
 [![iOS 16+](https://img.shields.io/badge/iOS-16%2B-007AFF.svg?style=flat&logo=apple&logoColor=white)](https://developer.apple.com/ios/)
