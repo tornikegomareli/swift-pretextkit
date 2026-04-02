@@ -8,8 +8,9 @@
 
 Swift port of [Cheng Lou's Pretext](https://github.com/chenglou/pretext) for Apple platforms.
 
-<!-- TODO: Replace with actual recording -->
-![Demo](https://via.placeholder.com/800x400?text=Demo+GIF)
+
+https://github.com/user-attachments/assets/3347db12-325d-46af-bdd3-3f78e539c329
+
 
 ---
 
