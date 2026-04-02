@@ -1,55 +1,71 @@
+<div align="center">
+
 # PretextKit
 
-[![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-orange.svg)](https://swift.org)
-[![iOS 16+](https://img.shields.io/badge/iOS-16%2B-blue.svg)](https://developer.apple.com/ios/)
-[![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue.svg)](https://developer.apple.com/macos/)
-[![SPM](https://img.shields.io/badge/SPM-compatible-green.svg)](https://swift.org/package-manager/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
+**Measure text once. Reflow forever.**
+
+[![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-F05138.svg?style=flat&logo=swift&logoColor=white)](https://swift.org)
+[![iOS 16+](https://img.shields.io/badge/iOS-16%2B-007AFF.svg?style=flat&logo=apple&logoColor=white)](https://developer.apple.com/ios/)
+[![macOS 13+](https://img.shields.io/badge/macOS-13%2B-007AFF.svg?style=flat&logo=apple&logoColor=white)](https://developer.apple.com/macos/)
+[![SPM](https://img.shields.io/badge/Swift_Package_Manager-compatible-E8E2D6.svg?style=flat)](https://swift.org/package-manager/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-A78BFA.svg?style=flat)](LICENSE)
 
 Swift port of [Cheng Lou's Pretext](https://github.com/chenglou/pretext) for Apple platforms.
+<br>CoreText measurement once, pure arithmetic reflow on every resize.
 
-<div align="center">
+<br>
 
 https://github.com/user-attachments/assets/a765c4e8-5418-4f02-8bc8-251001c41e92
 
-</div>
+<br>
 
-<div align="center">
-<table>
-<tr>
-<td align="center"><strong>Breaker</strong><br><sub>Text reflows around ball, paddle, and word-bricks</sub><br><br>
+---
+
+### Demos
+
+<details open>
+<summary><b>Breaker</b> — Text reflows around ball, paddle, and word-bricks</summary>
+<br>
 
 https://github.com/user-attachments/assets/08c9b23a-e61d-4865-a994-c4a5c3f71030
 
-</td>
-<td align="center"><strong>Tetris</strong><br><sub>Falling tetrominoes swim in reflowing text</sub><br><br>
+</details>
+
+<details>
+<summary><b>Tetris</b> — Falling tetrominoes swim in reflowing text</summary>
+<br>
 
 https://github.com/user-attachments/assets/131df357-8707-4e28-ace5-cb9e70271ba4
 
-</td>
-<td align="center"><strong>Bouncing Orbs</strong><br><sub>60fps physics with text flowing around obstacles</sub><br><br>
+</details>
+
+<details>
+<summary><b>Bouncing Orbs</b> — 60fps physics with text flowing around obstacles</summary>
+<br>
 
 https://github.com/user-attachments/assets/308d598a-35ce-4de5-a6a0-2fdec59935d4
 
-</td>
-</tr>
-<tr>
-<td align="center"><strong>Shrinkwrap</strong><br><sub>Standard sizing vs binary-search minimum width</sub><br><br>
+</details>
+
+<details>
+<summary><b>Shrinkwrap</b> — Standard sizing vs binary-search minimum width</summary>
+<br>
 
 https://github.com/user-attachments/assets/d97ccb45-108c-4c23-aa2c-972a9baa391e
 
-</td>
-<td align="center"><strong>Dynamic Layout</strong><br><sub>Draggable magazine elements with real-time reflow</sub><br><br>
+</details>
+
+<details>
+<summary><b>Dynamic Layout</b> — Draggable magazine elements with real-time reflow + engine comparison</summary>
+<br>
 
 https://github.com/user-attachments/assets/aed86de0-6e13-49c4-a3c3-58ae48bd9df2
 
-</td>
-<td align="center"></td>
-</tr>
-</table>
+</details>
+
 </div>
 
----
+<br>
 
 ## Why
 
