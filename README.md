@@ -3,11 +3,6 @@
 # PretextKit
 
 **Measure text once. Reflow forever.**
-![dynamiclayout](https://github.com/user-attachments/assets/92fcc262-f5a9-460d-978b-655ff7fcfb80)
-![tetris](https://github.com/user-attachments/assets/bf6ed1d4-208d-4685-a991-b7d74176eda7)
-![shrinkwrip](https://github.com/user-attachments/assets/2ce5a60e-9cda-43e1-815f-8c85602370c6)
-![bracket](https://github.com/user-attachments/assets/32aaab7b-1af6-40a4-9e61-1b08844e922d)
-![bouncing-orbs](https://github.com/user-attachments/assets/e6cada00-97c8-4823-8151-e6d01a90eb85)
 
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-F05138.svg?style=flat&logo=swift&logoColor=white)](https://swift.org)
 [![iOS 16+](https://img.shields.io/badge/iOS-16%2B-007AFF.svg?style=flat&logo=apple&logoColor=white)](https://developer.apple.com/ios/)
@@ -20,53 +15,7 @@ Swift port of [Cheng Lou's Pretext](https://github.com/chenglou/pretext) for App
 
 <br>
 
-https://github.com/user-attachments/assets/a765c4e8-5418-4f02-8bc8-251001c41e92
-
-<br>
-
----
-
-### Demos
-
-<details open>
-<summary><b>Breaker</b> — Text reflows around ball, paddle, and word-bricks</summary>
-<br>
-
-https://github.com/user-attachments/assets/08c9b23a-e61d-4865-a994-c4a5c3f71030
-
-</details>
-
-<details>
-<summary><b>Tetris</b> — Falling tetrominoes swim in reflowing text</summary>
-<br>
-
-https://github.com/user-attachments/assets/131df357-8707-4e28-ace5-cb9e70271ba4
-
-</details>
-
-<details>
-<summary><b>Bouncing Orbs</b> — 60fps physics with text flowing around obstacles</summary>
-<br>
-
-https://github.com/user-attachments/assets/308d598a-35ce-4de5-a6a0-2fdec59935d4
-
-</details>
-
-<details>
-<summary><b>Shrinkwrap</b> — Standard sizing vs binary-search minimum width</summary>
-<br>
-
-https://github.com/user-attachments/assets/d97ccb45-108c-4c23-aa2c-972a9baa391e
-
-</details>
-
-<details>
-<summary><b>Dynamic Layout</b> — Draggable magazine elements with real-time reflow + engine comparison</summary>
-<br>
-
 https://github.com/user-attachments/assets/aed86de0-6e13-49c4-a3c3-58ae48bd9df2
-
-</details>
 
 </div>
 
@@ -314,6 +263,42 @@ The core algorithm is a 1:1 port from the [original TypeScript](https://github.c
 | Hot path | Array indexing | `withUnsafeBufferPointer` |
 
 Not yet ported: bidi rendering metadata (`segLevels`) and URL-specific segmentation rules.
+
+---
+
+## Demos
+
+<div align="center">
+
+**Breaker** — Text reflows around ball, paddle, and word-bricks
+
+https://github.com/user-attachments/assets/08c9b23a-e61d-4865-a994-c4a5c3f71030
+
+<br>
+
+**Tetris** — Falling tetrominoes swim in reflowing text
+
+https://github.com/user-attachments/assets/131df357-8707-4e28-ace5-cb9e70271ba4
+
+<br>
+
+**Bouncing Orbs** — 60fps physics with text flowing around obstacles
+
+https://github.com/user-attachments/assets/308d598a-35ce-4de5-a6a0-2fdec59935d4
+
+<br>
+
+**Shrinkwrap** — Standard sizing vs binary-search minimum width
+
+https://github.com/user-attachments/assets/d97ccb45-108c-4c23-aa2c-972a9baa391e
+
+<br>
+
+**Speed** — Full benchmark showcase
+
+https://github.com/user-attachments/assets/a765c4e8-5418-4f02-8bc8-251001c41e92
+
+</div>
 
 ---
 
