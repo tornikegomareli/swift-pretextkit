@@ -56,7 +56,7 @@ result.height     // 44.0
 result.lineCount  // 2
 ```
 
-`prepare()` is the expensive call — run it once per (text, font) pair. `layout()` is the cheap call — run it on every resize, rotation, or reflow. Don't re-run `prepare()` when only the width changes.
+`prepare()` is the expensive call, run it once per (text, font) pair. `layout()` is the cheap call, run it on every resize, rotation, or reflow. Don't re-run `prepare()` when only the width changes.
 
 For textarea-like text where spaces, tabs, and newlines stay visible:
 
