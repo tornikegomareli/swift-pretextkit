@@ -11,7 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-A78BFA.svg?style=flat)](LICENSE)
 
 Swift port of [Cheng Lou's Pretext](https://github.com/chenglou/pretext) for Apple platforms.
-<br>CoreText measurement once, pure arithmetic reflow on every resize.
+<br>CoreText measurement once, just arithmetic on every resize.
 
 <br>
 
