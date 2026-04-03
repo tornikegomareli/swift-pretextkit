@@ -21,9 +21,9 @@ https://github.com/user-attachments/assets/aed86de0-6e13-49c4-a3c3-58ae48bd9df2
 
 <br>
 
-`UILabel.sizeThatFits`, `NSAttributedString.boundingRect`, and every other text measurement API on iOS calls CoreText from scratch every time — font tables, Unicode normalization, glyph shaping, line breaking. All of it, every call.
+When you call NSAttributedString.boundingRect or UILabel.sizeThatFits with a different width, the full CoreText pipeline runs again, shaping, line breaking, all of it. That's fine for a single measurement, but adds up when you're sizing hundreds of cells or reflowing text every frame.
 
-PretextKit does the expensive CoreText work once in `prepare()`, then answers any "how tall is this text at width X?" question with pure arithmetic in `layout()`. No font engine, no allocations, sub-microsecond.
+PretextKit runs CoreText once in prepare() to measure and cache segment widths. After that, layout() figures out where lines break at any new width using just arithmetic over those cached widths.
 
 Based on [Cheng Lou's insight](https://github.com/chenglou/pretext) (building on [Sebastian Markbage's text-layout](https://github.com/chenglou/text-layout)) that text shaping and line breaking are two separate problems — and only shaping is expensive.
 
