@@ -25,7 +25,7 @@ When you call NSAttributedString.boundingRect or UILabel.sizeThatFits with a dif
 
 PretextKit runs CoreText once in prepare() to measure and cache segment widths. After that, layout() figures out where lines break at any new width using just arithmetic over those cached widths.
 
-Based on [Cheng Lou's insight](https://github.com/chenglou/pretext) (building on [Sebastian Markbage's text-layout](https://github.com/chenglou/text-layout)) that text shaping and line breaking are two separate problems — and only shaping is expensive.
+Based on [Cheng Lou's insight](https://github.com/chenglou/pretext) that text shaping and line breaking are two separate problems — and only shaping is expensive.
 
 ## Install
 
